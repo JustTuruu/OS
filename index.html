@@ -226,6 +226,83 @@
         margin-top: 0;
       }
 
+      /* Шинээр нэмэгдсэн процесс үүсэх үйл явцын стилиуд */
+      .process-flow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .flow-item {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+        padding: 20px;
+        border-radius: 15px;
+        background: #f8f9fa;
+        width: 80%;
+        text-align: center;
+        border-left: 5px solid #667eea;
+      }
+
+      .flow-item.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .flow-item.programm {
+        border-left-color: #667eea;
+      }
+      .flow-item.complication {
+        border-left-color: #e74c3c;
+      }
+      .flow-item.barrier {
+        border-left-color: #f39c12;
+      }
+      .flow-item.execution {
+        border-left-color: #27ae60;
+      }
+      .flow-item.process {
+        border-left-color: #9b59b6;
+      }
+
+      .flow-item h3 {
+        margin: 0 0 10px 0;
+        color: #2c3e50;
+        font-size: 22px;
+      }
+
+      .flow-item p {
+        margin: 0;
+        color: #7f8c8d;
+        font-size: 16px;
+      }
+
+      .arrow {
+        font-size: 24px;
+        color: #667eea;
+        margin: 5px 0;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+      }
+
+      .arrow.active {
+        opacity: 1;
+      }
+
+      .flow-controls {
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .flow-controls button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+
       @media (max-width: 768px) {
         .slide {
           padding: 30px 20px;
@@ -249,6 +326,10 @@
 
         .controls {
           padding: 15px 20px;
+        }
+
+        .flow-item {
+          width: 95%;
         }
       }
     </style>
@@ -301,7 +382,68 @@
           <p>New → Ready → Running → Waiting → Terminated</p>
         </div>
       </div>
+
+      <!-- Шинээр нэмэгдсэн процесс үүсэх үйл явцын слайд -->
       <div class="slide" data-slide="2">
+        <div class="slide-content">
+          <h2>Process Creation Flow</h2>
+          <p>Процесс хэрхэн үүсдэг вэ?</p>
+
+          <div class="process-flow">
+            <!-- Programm -->
+            <div class="flow-item programm" id="programm">
+              <h3>Programm</h3>
+              <p>Эх код, алгоритм</p>
+            </div>
+
+            <div class="arrow" id="arrow1">↓</div>
+
+            <!-- Complication -->
+            <div class="flow-item complication" id="complication">
+              <h3>Complication</h3>
+              <p>Хөрвүүлэлт, compile хийх</p>
+            </div>
+
+            <div class="arrow" id="arrow2">↓</div>
+
+            <!-- Barrier -->
+            <div class="flow-item barrier" id="barrier">
+              <h3>Barrier</h3>
+              <p>jar/.exe - Binary файл</p>
+            </div>
+
+            <div class="arrow" id="arrow3">↓</div>
+
+            <!-- Execution -->
+            <div class="flow-item execution" id="execution">
+              <h3>Execution</h3>
+              <p>Гүйцэтгэх, ажиллуулах</p>
+            </div>
+
+            <div class="arrow" id="arrow4">↓</div>
+
+            <!-- Process -->
+            <div class="flow-item process" id="process">
+              <h3>Process</h3>
+              <p>Ажиллаж буй програм</p>
+            </div>
+          </div>
+
+          <div class="flow-controls">
+            <button id="flowPrevBtn" onclick="previousFlowStep()">
+              ← Өмнөх алхам
+            </button>
+            <button id="flowNextBtn" onclick="nextFlowStep()">
+              Дараагийн алхам →
+            </button>
+            <button id="flowAutoBtn" onclick="toggleFlowAuto()">
+              Авто үзүүлэх
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-slide="3">
         <div class="slide-content">
           <h2 id="slide2Title">What is a Thread?</h2>
           <p>
@@ -335,7 +477,7 @@
           </ul>
         </div>
       </div>
-      <div class="slide" data-slide="3">
+      <div class="slide" data-slide="4">
         <div class="slide-content">
           <h2 id="slide3Title">Process vs Thread</h2>
           <div class="comparison-grid">
@@ -364,7 +506,7 @@
           </div>
         </div>
       </div>
-      <div class="slide" data-slide="4">
+      <div class="slide" data-slide="5">
         <div class="slide-content">
           <h2 id="slide4Title">Benefits of Multithreading</h2>
           <h3>1. Responsiveness</h3>
@@ -391,7 +533,7 @@
           </p>
         </div>
       </div>
-      <div class="slide" data-slide="5">
+      <div class="slide" data-slide="6">
         <div class="slide-content">
           <h2 id="slide5Title">Challenges in Multithreading</h2>
           <h3>⚠️ Synchronization Issues</h3>
@@ -424,7 +566,7 @@
         <button id="nextBtn" onclick="nextSlide()">Next →</button>
       </div>
       <div class="slide-indicator">
-        <span id="currentSlide">1</span> / <span id="totalSlides">6</span>
+        <span id="currentSlide">1</span> / <span id="totalSlides">7</span>
       </div>
     </div>
     <script>
@@ -445,7 +587,23 @@
       };
 
       let currentSlideIndex = 0;
-      const totalSlides = 6;
+      const totalSlides = 7;
+
+      // Процесс үүсэх үйл явцын хувьсагч
+      let flowCurrentStep = 0;
+      const flowItems = [
+        "programm",
+        "arrow1",
+        "complication",
+        "arrow2",
+        "barrier",
+        "arrow3",
+        "execution",
+        "arrow4",
+        "process",
+      ];
+      let flowAutoPlay = false;
+      let flowAutoInterval;
 
       function updateSlide() {
         const slides = document.querySelectorAll(".slide");
@@ -453,6 +611,11 @@
           slide.classList.remove("active");
           if (index === currentSlideIndex) {
             slide.classList.add("active");
+
+            // Хэрэв процесс үүсэх үйл явцын слайд ирвэл алхамуудыг шинэчлэх
+            if (index === 2) {
+              resetFlow();
+            }
           }
         });
 
@@ -480,9 +643,87 @@
         }
       }
 
+      // Процесс үүсэх үйл явцын функцууд
+      function updateFlowDisplay() {
+        // Бүх элементийг нуух
+        flowItems.forEach((item) => {
+          const element = document.getElementById(item);
+          if (element) {
+            element.classList.remove("active");
+          }
+        });
+
+        // Одоогийн алхам хүртэлх элементийг харуулах
+        for (let i = 0; i <= flowCurrentStep && i < flowItems.length; i++) {
+          const element = document.getElementById(flowItems[i]);
+          if (element) {
+            setTimeout(() => {
+              element.classList.add("active");
+            }, 100 * i);
+          }
+        }
+
+        // Товчлууруудыг шинэчлэх
+        document.getElementById("flowPrevBtn").disabled = flowCurrentStep === 0;
+        document.getElementById("flowNextBtn").disabled =
+          flowCurrentStep === flowItems.length - 1;
+      }
+
+      function nextFlowStep() {
+        if (flowCurrentStep < flowItems.length - 1) {
+          flowCurrentStep++;
+          updateFlowDisplay();
+        }
+      }
+
+      function previousFlowStep() {
+        if (flowCurrentStep > 0) {
+          flowCurrentStep--;
+          updateFlowDisplay();
+        }
+      }
+
+      function resetFlow() {
+        flowCurrentStep = 0;
+        updateFlowDisplay();
+        if (flowAutoPlay) {
+          toggleFlowAuto();
+        }
+      }
+
+      function toggleFlowAuto() {
+        flowAutoPlay = !flowAutoPlay;
+        const autoBtn = document.getElementById("flowAutoBtn");
+
+        if (flowAutoPlay) {
+          autoBtn.textContent = "Зогсоох";
+          autoBtn.style.background = "#e74c3c";
+          flowCurrentStep = -1;
+          flowAutoInterval = setInterval(() => {
+            if (flowCurrentStep < flowItems.length - 1) {
+              flowCurrentStep++;
+              updateFlowDisplay();
+            } else {
+              toggleFlowAuto();
+            }
+          }, 1500);
+        } else {
+          autoBtn.textContent = "Авто үзүүлэх";
+          autoBtn.style.background = "";
+          clearInterval(flowAutoInterval);
+        }
+      }
+
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight") nextSlide();
         if (e.key === "ArrowLeft") previousSlide();
+
+        // Процесс үүсэх үйл явцын слайд дээр байх үед тусгай хяналт
+        if (currentSlideIndex === 2) {
+          if (e.key === "ArrowUp") previousFlowStep();
+          if (e.key === "ArrowDown") nextFlowStep();
+          if (e.key === " ") toggleFlowAuto();
+        }
       });
 
       async function onConfigChange(config) {
